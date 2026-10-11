@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROXY</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #000;
+  color: #00ff41;
+  font-family: monospace;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+#matrix {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 18px 12px 40px;
+}
+
+h1 {
+  font-size: clamp(23px, 6vw, 34px);
+  text-shadow: 0 0 12px #00ff41;
+}
+
+.name {
+  font-size: 30px;
+  letter-spacing: 6px;
+  margin: 22px 0 28px;
+  text-shadow: 0 0 12px #00ff41;
+}
+
+img {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: auto;
+  border: 1px solid #00ff41;
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="content">
+  <h1>WE ARE ANONYMOUS</h1>
+  <div class="name">ROXY</div>
+  <img src="anonymous.jpg" alt="Anonymous">
+</div>
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+let drops = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  drops = Array(Math.ceil(canvas.width / 18)).fill(1);
+}
+
+function draw() {
+  ctx.fillStyle = 'rgba(0,0,0,0.12)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#00ff41';
+  ctx.font = '16px monospace';
+
+  drops.forEach((y, i) => {
+    ctx.fillText(
+      Math.random() > 0.5 ? '1' : '0',
+      i * 18,
+      y * 18
+    );
+
+    if (y * 18 > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', resize);
+resize();
+draw();
+</script>
+
+</body>
+</html>
+
